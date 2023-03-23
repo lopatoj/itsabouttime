@@ -29,8 +29,8 @@ def main(args):
   model.fc = nn.Linear(2048, 720)
   resume_path = './models/{}.pth'.format(args.verbose)
   stn_resume_path = './models/{}_st.pth'.format(args.verbose)
-  model.load_state_dict(torch.load(resume_path))
-  model_stn.load_state_dict(torch.load(stn_resume_path))
+  model.load_state_dict(torch.load(resume_path, map_location=torch.device('cpu')))
+  model_stn.load_state_dict(torch.load(stn_resume_path, map_location=torch.device('cpu')))
   model_stn.to(device)
   model.to(device)
 
