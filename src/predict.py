@@ -59,7 +59,7 @@ def main(args):
       max_h = max_pred[0] // 60
       max_m = max_pred[0] % 60
 
-      print("The time on the clock in image", count+1, "is roughly", f"{max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2} PM.")
+      print(f"[{images[count]}] is roughly {max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2} PM.\n")
       
       #img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
       #img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
@@ -74,7 +74,7 @@ def main(args):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--verbose', type=str, default='full+++')
-    parser.add_argument('--dir', type=str, default='../data/demo')
+    parser.add_argument('--dir', type=str, default='./data/demo')
 
     args = parser.parse_args()
     main(args)

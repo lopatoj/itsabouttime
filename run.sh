@@ -1,1 +1,1 @@
-python3 src/predict.py --dir ./data/demo
+python3 src/predict.py
