@@ -23,9 +23,9 @@ def main(args):
   images = [x for x in natsorted(os.listdir(args.dir)) if ('.jpg' in x) or ('.png' in x)]
 
   # MODEL
-  model_stn = models.resnet50(pretrained=True)
+  model_stn = models.resnet50(weights=True)
   model_stn.fc = nn.Linear(2048, 8)
-  model = models.resnet50(pretrained=True)
+  model = models.resnet50(weights=True)
   model.fc = nn.Linear(2048, 720)
   resume_path = './models/{}.pth'.format(args.verbose)
   stn_resume_path = './models/{}_st.pth'.format(args.verbose)
