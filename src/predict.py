@@ -34,13 +34,13 @@ def main(args):
   model_stn.to(device)
   model.to(device)
 
-  for img_name in images:
+  for count in range(len(images)):
     with torch.no_grad():
       model.eval()
       model_stn.eval()
 
       #MODEL
-      img = cv2.imread(os.path.join(args.dir, img_name))
+      img = cv2.imread(os.path.join(args.dir, images[count]))
       img = cv2.resize(img, (224, 224))/255.
       img = einops.rearrange(img, 'h w c -> c h w')
       img = torch.Tensor(img)
@@ -59,7 +59,7 @@ def main(args):
       max_h = max_pred[0] // 60
       max_m = max_pred[0] % 60
 
-      print(img_name, max_h.cpu().numpy(), max_m.cpu().numpy())
+      print("The time on the clock in image", count+1, "is roughly", f"{max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2} PM.")
       
       #img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
       #img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
