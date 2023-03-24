@@ -6,6 +6,7 @@ import random
 import numpy as np
 import torch.optim as optim
 import torch.nn as nn
+import torch.onnx as onnx
 import torchvision.models as models
 from natsort import natsorted
 from tensorboardX import SummaryWriter
@@ -23,12 +24,12 @@ def main(args):
   images = [x for x in natsorted(os.listdir(args.dir)) if ('.jpg' in x) or ('.png' in x)]
 
   # MODEL
-  model_stn = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
+  model_stn = models.resnet50()
   model_stn.fc = nn.Linear(2048, 8)
-  model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V1)
+  model = models.resnet50()
   model.fc = nn.Linear(2048, 720)
-  resume_path = './models/{}.pth'.format(args.verbose)
-  stn_resume_path = './models/{}_st.pth'.format(args.verbose)
+  resume_path = './models/{}.pth'.format(verbose)
+  stn_resume_path = './models/{}_st.pth'.format(verbose)
   model.load_state_dict(torch.load(resume_path, map_location=torch.device('cpu')))
   model_stn.load_state_dict(torch.load(stn_resume_path, map_location=torch.device('cpu')))
   model_stn.to(device)
