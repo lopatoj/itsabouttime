@@ -60,7 +60,7 @@ def main(args):
       max_h = max_pred[0] // 60
       max_m = max_pred[0] % 60
 
-      print(f"[{images[count]}] is roughly {max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2} PM.\n")
+      print(f"[{images[count]}] is roughly {max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2}.\n")
       
       #img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
       #img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
