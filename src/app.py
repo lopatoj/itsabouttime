@@ -52,5 +52,3 @@ def predict():
       max_m = max_pred[0] % 60
 
       print(f"[{images[count]}] is roughly {max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2}.\n")
-
-    return jsonify({'time': 'Hello World'})

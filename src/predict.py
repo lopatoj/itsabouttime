@@ -52,24 +52,20 @@ def main(args):
       pred_st = torch.cat([pred_st,torch.ones(1,1).to(device)], 1)
       Minv_pred = torch.reshape(pred_st, (-1, 3, 3))
       img_ = warp(img, Minv_pred)
+
       pred = model(img_)
 
       #top 3 predictions
       max_pred = torch.argsort(pred, dim=1, descending=True)
-      max_pred = max_pred[0,:3]
       max_h = max_pred[0] // 60
       max_m = max_pred[0] % 60
 
-      print(f"[{images[count]}] is roughly {max_h.cpu().numpy()}:{max_m.cpu().numpy():0>2}.\n")
+      print(f"[{images[count]}] is roughly {max_pred[0].cpu().numpy()}.\n")
       
-      #img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
-      #img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
-
-      #uncomment this to save image
-      #os.makedirs('../viz/{}/{}'.format(verbose,names[i]), exist_ok=True)
-      #if idx < 100:
-      #cv2.imwrite('../viz/{}/{}/{}_{}_{}.png'.format(verbose,names[i],idx, int(max_pred[0]), int(hr*60+mn)), img)
-      #cv2.imwrite('../viz/{}/{}/{}_w.png'.format(verbose,names[i],idx), img_)
+      img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
+      img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
+      cv2.imwrite('./data/img{}.png'.format(count), img)
+      cv2.imwrite('./data/img{}_stn.png'.format(count), img_)
 
 
 if __name__ == "__main__":
