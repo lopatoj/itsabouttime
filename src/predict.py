@@ -42,7 +42,7 @@ def main(args):
 
       #MODEL
       img = cv2.imread(os.path.join(args.dir, images[count]))
-      img = cv2.resize(img, (224, 224))/255.
+      img = cv2.resize(img, (224, 224))/255
       img = einops.rearrange(img, 'h w c -> c h w')
       img = torch.Tensor(img)
       img = img.float().to(device)
