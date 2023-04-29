@@ -21,7 +21,7 @@ def main(args):
   device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
   # DATASET
-  images = [x for x in natsorted(os.listdir(args.dir)) if ('.jpg' in x) or ('.png' in x)]
+  images = ["1.50.png"]
 
   # MODEL
   model_stn = models.resnet50()
@@ -42,11 +42,20 @@ def main(args):
 
       #MODEL
       img = cv2.imread(os.path.join(args.dir, images[count]))
+      print(f"Predicting {images[count]}...")
       img = cv2.resize(img, (224, 224))/255
+      print(img.shape, "\n")
+      print(img, "\n")
       img = einops.rearrange(img, 'h w c -> c h w')
+      print(img.shape, "\n")
+      print(img, "\n")
       img = torch.Tensor(img)
+      print(img.shape, "\n")
+      print(img, "\n")
       img = img.float().to(device)
       img = torch.unsqueeze(img, 0)
+      print(img.shape, "\n")
+      print(img, "\n")
       pred = model(img)
 
       #top 3 predictions
@@ -54,12 +63,10 @@ def main(args):
       max_h = max_pred[0] // 60
       max_m = max_pred[0] % 60
 
-      print(f"[{images[count]}] is roughly {max_h[0].cpu().numpy()}:{max_m[0].cpu().numpy():0>2}.\n")
+      print(f"[{images[count]}] is roughly {max_h[0].cpu().numpy()}:{max_m[0].cpu().numpy():0>2} ({max_pred[0][0].cpu().numpy()}).\n")
       
-      # img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
-      # img_ = einops.rearrange(img_[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255
-      # cv2.imwrite('./data/img{}.png'.format(count), img)
-      # cv2.imwrite('./data/img{}_stn.png'.format(count), img_)
+      img = einops.rearrange(img[0], 'c h w -> h w c').cpu().numpy()[:,:,::-1] * 255 
+      cv2.imwrite('./data/img{}.png'.format(count), img)
 
 
 if __name__ == "__main__":
