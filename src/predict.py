@@ -20,15 +20,15 @@ def main():
   device = 'cpu'
 
   # DATASET
-  images = ["1.50.png"]
+  images = ["test.jpg"]
 
   # MODEL
   model_stn = models.resnet50()
   model_stn.fc = nn.Linear(2048, 8)
   model = models.resnet50()
   model.fc = nn.Linear(2048, 720)
-  resume_path = './models/full+++.pth'
-  stn_resume_path = './models/full+++_st.pth'
+  resume_path = './models/main.pth'
+  stn_resume_path = './models/stn.pth'
   model.load_state_dict(torch.load(resume_path, map_location=torch.device('cpu')))
   model_stn.load_state_dict(torch.load(stn_resume_path, map_location=torch.device('cpu')))
   model_stn.to(device)
